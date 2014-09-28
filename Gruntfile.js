@@ -32,9 +32,10 @@ module.exports = function(grunt) {
                         requirejs: "../../../bower_components/requirejs/require",                   
                         marionette: "../../../bower_components/backbone.marionette/lib/backbone.marionette",
                         backboneFetchCache: "../../../bower_components/backbone-fetch-cache/backbone.fetch-cache.min",
-                        memento: '../../../bower_components/backbone.memento/backbone.memento.min'
+                        memento: '../../../bower_components/backbone.memento/backbone.memento.min',
+                        backboneValidation: '../../../bower_components/backbone-validation/dist/backbone-validation-min'
                     },
-                    exclude: ['jquery', 'underscore', 'backbone', 'requirejs', 'marionette', 'backboneFetchCache', 'memento']
+                    exclude: ['jquery', 'underscore', 'backbone', 'requirejs', 'marionette', 'backboneFetchCache', 'memento', 'backboneValidation']
                 }
             }
         },

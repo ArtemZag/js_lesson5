@@ -15,13 +15,15 @@ define(['marionette', 'underscore'], function(marionette, _) {
 
         ui: {
             filmNameInput: 'input.film-name-input',
-            filmYearInput: 'input.film-year-input'
+            filmYearInput: 'input.film-year-input',
+            filmNameErrors: 'span.film-name-errors',
+            filmYearErrors: 'span.film-year-errors'
         },
 
         filmNameChange: function() {
             this.model.set('name', this.ui.filmNameInput.val());
         },
-        
+
         filmYearChange: function() {
             this.model.set('year', this.ui.filmYearInput.val());
         },
@@ -53,14 +55,16 @@ define(['marionette', 'underscore'], function(marionette, _) {
         },
 
         editApprove: function() {
-            this.model.store();
-            var view = this;
-            this.model.save(null, {
-                success: function(model, response) {
-                    view.render();
-                }
-            });
-            this.isEditMode = false;
+            if (this.model.isValid(true)) {
+                this.model.store();
+                var view = this;
+                this.model.save(null, {
+                    success: function(model, response) {
+                        view.render();
+                    }
+                });
+                this.isEditMode = false;
+            }
             this.render();
         },
 
@@ -77,7 +81,17 @@ define(['marionette', 'underscore'], function(marionette, _) {
                 this.$el.html(this.template(this.model.toJSON()));
             }
             this.bindUIElements();
-            this.triggerMethod("render",this);
+
+            // По-моему это какой-то костыль. Просто я пока не понял как это сделать правильно и красиво.
+            if (this.isEditMode) {
+                var errors = this.model.validate();
+                if (errors !== undefined) {
+                    this.ui.filmNameErrors.text(errors.name);
+                    this.ui.filmYearErrors.text(errors.year);
+                }
+            }
+
+            this.triggerMethod("render", this);
             return this;
         }
     });

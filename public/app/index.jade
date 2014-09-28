@@ -31,6 +31,10 @@ body
 		input.film-year-input(type="text", value!='<%= year %>')
 		input.film-editapprove-button(type='button', value='Save')
 		input.film-editcancel-button(type='button' value='Cancel')
+		div(style='clear: both')
+			span.film-id
+			span.validation-error.film-name-errors
+			span.validation-error.film-year-errors
 
 	script#film-details-template(type='text/template')
 		a(href='#') All films

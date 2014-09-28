@@ -15,6 +15,7 @@
     "backbone": "~1.1.2",
     "backbone.marionette": "~2.2.1",
     "backbone-fetch-cache": "~1.4.0",
-    "backbone.memento": "https://github.com/derickbailey/backbone.memento.git#~0.4.1"
+    "backbone.memento": "https://github.com/derickbailey/backbone.memento.git#~0.4.1",
+    "backbone-validation": "~0.9.1"
   }
 }

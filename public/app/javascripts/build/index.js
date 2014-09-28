@@ -1,14 +1,20 @@
-define('Film',['backbone', 'memento', 'underscore'], function(backbone, Memento, _) {
+define('Film',['backbone', 'memento', 'underscore','backboneValidation'], function(backbone, Memento, _, backboneValidation) {
     var Film = backbone.Model.extend({
         initialize: function() {
             var memento = new Memento(this);
             _.extend(this, memento);
+            _.extend(this, backboneValidation.mixin);
         },
         url: function() {
             if (this.id === undefined)
                 return '/api/films';
             else
                 return '/api/films/' + this.id;
+        },
+        validation: {
+            'name': {
+                required: true
+            }
         },
         defaults: {
             year: 2014,
@@ -44,13 +50,15 @@ define('FilmItemView',['marionette', 'underscore'], function(marionette, _) {
 
         ui: {
             filmNameInput: 'input.film-name-input',
-            filmYearInput: 'input.film-year-input'
+            filmYearInput: 'input.film-year-input',
+            filmNameErrors: 'span.film-name-errors',
+            filmYearErrors: 'span.film-year-errors'
         },
 
         filmNameChange: function() {
             this.model.set('name', this.ui.filmNameInput.val());
         },
-        
+
         filmYearChange: function() {
             this.model.set('year', this.ui.filmYearInput.val());
         },
@@ -82,14 +90,16 @@ define('FilmItemView',['marionette', 'underscore'], function(marionette, _) {
         },
 
         editApprove: function() {
-            this.model.store();
-            var view = this;
-            this.model.save(null, {
-                success: function(model, response) {
-                    view.render();
-                }
-            });
-            this.isEditMode = false;
+            if (this.model.isValid(true)) {
+                this.model.store();
+                var view = this;
+                this.model.save(null, {
+                    success: function(model, response) {
+                        view.render();
+                    }
+                });
+                this.isEditMode = false;
+            }
             this.render();
         },
 
@@ -106,7 +116,17 @@ define('FilmItemView',['marionette', 'underscore'], function(marionette, _) {
                 this.$el.html(this.template(this.model.toJSON()));
             }
             this.bindUIElements();
-            this.triggerMethod("render",this);
+
+            // По-моему это какой-то костыль. Просто я пока не понял как это сделать правильно и красиво.
+            if (this.isEditMode) {
+                var errors = this.model.validate();
+                if (errors !== undefined) {
+                    this.ui.filmNameErrors.text(errors.name);
+                    this.ui.filmYearErrors.text(errors.year);
+                }
+            }
+
+            this.triggerMethod("render", this);
             return this;
         }
     });
@@ -308,6 +328,7 @@ require.config({
         jquery: "/bower_components/jquery/dist/jquery",
         underscore: "/bower_components/underscore/underscore",
         backbone: "/bower_components/backbone/backbone",
+        backboneValidation: '/bower_components/backbone-validation/dist/backbone-validation-min',
         requirejs: "/bower_components/requirejs/require",
         marionette: '/bower_components/backbone.marionette/lib/backbone.marionette.min',
         backboneFetchCache: '/bower_components/backbone-fetch-cache/backbone.fetch-cache.min',
@@ -321,6 +342,10 @@ require.config({
         backboneFetchCache: {
             deps: ['backbone'],
             exports: 'Backbone'
+        },
+        backboneValidation: {
+            deps: ['backbone'],
+            exports: 'Backbone.Validation'
         },
         memento: {
             deps: ['backbone'],

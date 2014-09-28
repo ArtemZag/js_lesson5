@@ -13,6 +13,7 @@ require.config({
         jquery: "/bower_components/jquery/dist/jquery",
         underscore: "/bower_components/underscore/underscore",
         backbone: "/bower_components/backbone/backbone",
+        backboneValidation: '/bower_components/backbone-validation/dist/backbone-validation-min',
         requirejs: "/bower_components/requirejs/require",
         marionette: '/bower_components/backbone.marionette/lib/backbone.marionette.min',
         backboneFetchCache: '/bower_components/backbone-fetch-cache/backbone.fetch-cache.min',
@@ -26,6 +27,10 @@ require.config({
         backboneFetchCache: {
             deps: ['backbone'],
             exports: 'Backbone'
+        },
+        backboneValidation: {
+            deps: ['backbone'],
+            exports: 'Backbone.Validation'
         },
         memento: {
             deps: ['backbone'],
