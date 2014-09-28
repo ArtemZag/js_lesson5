@@ -31,6 +31,7 @@ module.exports = function(grunt) {
                         backbone: "../../../bower_components/backbone/backbone",
                         requirejs: "../../../bower_components/requirejs/require",                   
                         marionette: "../../../bower_components/backbone.marionette/lib/backbone.marionette",
+                        backboneFetchCache: "../../../bower_components/backbone-fetch-cache/backbone.fetch-cache.min"
                     },
                     exclude: ['jquery', 'underscore', 'backbone', 'requirejs', 'marionette']
                 }

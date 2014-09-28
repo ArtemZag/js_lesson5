@@ -1,4 +1,4 @@
-define(['marionette', 'underscore', 'jquery'], function(marionette, underscore, jquery) {
+define(['marionette', 'underscore', 'jquery', 'backboneFetchCache'], function(marionette, underscore, jquery, backboneFetchCache) {
 	var FilmDetailsView = marionette.ItemView.extend({
 		template: _.template($('#film-details-template').html()),
 
@@ -9,7 +9,8 @@ define(['marionette', 'underscore', 'jquery'], function(marionette, underscore, 
 
 		fetchById: function(filmId) {			
             this.model.id = filmId;
-            this.model.fetch();
+            this.model.fetch({cache: true});
+            // this.model.fetch();
 		},
 
         show: function() {

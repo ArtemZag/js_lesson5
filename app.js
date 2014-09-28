@@ -3,6 +3,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     filmService = require('./filmService');
 
+app.disable('etag'); // Я был вынужден это сделать :( чтобы проверить как работает плагин fetch cache для бэкбона
 app.use(express.static(__dirname + '/public'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use(bodyParser.json());

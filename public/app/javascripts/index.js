@@ -14,15 +14,17 @@ require.config({
         underscore: "/bower_components/underscore/underscore",
         backbone: "/bower_components/backbone/backbone",
         requirejs: "/bower_components/requirejs/require",
-        marionette: '/bower_components/backbone.marionette/lib/backbone.marionette.min'
+        marionette: '/bower_components/backbone.marionette/lib/backbone.marionette.min',
+        backboneFetchCache: '/bower_components/backbone.fetch-cache/backbone.fetch-cache.min'
     },
     shim: {
         backbone: {
-            deps: [
-                "underscore",
-                "jquery"
-            ],
+            deps: ["underscore", "jquery"],
             exports: "Backbone"
+        },
+        backboneFetchCache: {
+            deps: ['backbone'],
+            exports: 'Backbone'
         },
         marionette: {
             deps: ['backbone'],

@@ -6,11 +6,14 @@ define(['marionette', 'FilmDetails', 'FilmDetailsView'], function(marionette, Fi
             });
         },
         template: "#page-film-details-template",
+        ui: {
+            filmDetailsContainer: '#film-details-container'
+        },
         fetchById: function(filmId) {
 			this.filmDetailsView.fetchById(filmId);
         },
         onRender: function() {
-            this.$("#film-details-container").append(this.filmDetailsView.$el);
+            this.ui.filmDetailsContainer.append(this.filmDetailsView.$el);
         }
     });
 

@@ -18,9 +18,14 @@ define(['marionette', 'FilmCollection', 'FilmCollectionView', 'AddFilmButtonView
                 });
             },
 
+            ui: {
+                filmsContainer: '#films-container',
+                addFilmButtonContainer: '#add-film-button-container'
+            },
+
             onRender: function(options) {
-                this.$('#films-container').append(this.filmCollectionView.$el);
-                this.$('#add-film-button-container').append(this.addFilmButtonView.$el);
+                this.ui.filmsContainer.append(this.filmCollectionView.$el);
+                this.ui.addFilmButtonContainer.append(this.addFilmButtonView.$el);
             },
 
             fetch: function() {
