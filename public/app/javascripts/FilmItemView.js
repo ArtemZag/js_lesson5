@@ -8,7 +8,22 @@ define(['marionette', 'underscore'], function(marionette, _) {
             'click input.film-delete-button': 'delete',
             'click input.film-edit-button': 'edit',
             'click input.film-editcancel-button': 'editCancel',
-            'click input.film-editapprove-button': 'editApprove'
+            'click input.film-editapprove-button': 'editApprove',
+            'keyup input.film-name-input': 'filmNameChange',
+            'keyup input.film-year-input': 'filmYearChange'
+        },
+
+        ui: {
+            filmNameInput: 'input.film-name-input',
+            filmYearInput: 'input.film-year-input'
+        },
+
+        filmNameChange: function() {
+            this.model.set('name', this.ui.filmNameInput.val());
+        },
+        
+        filmYearChange: function() {
+            this.model.set('year', this.ui.filmYearInput.val());
         },
 
         behaviors: {
@@ -23,10 +38,12 @@ define(['marionette', 'underscore'], function(marionette, _) {
 
         edit: function() {
             this.isEditMode = true;
+            this.model.store();
             this.render();
         },
 
         editCancel: function() {
+            this.model.restore();
             this.isEditMode = false;
             if (this.model.id > 0) {
                 this.render();
@@ -36,8 +53,7 @@ define(['marionette', 'underscore'], function(marionette, _) {
         },
 
         editApprove: function() {
-            this.model.set('name', this.$('input.film-name-input').val());
-            this.model.set('year', this.$('input.film-year-input').val());
+            this.model.store();
             var view = this;
             this.model.save(null, {
                 success: function(model, response) {
@@ -53,11 +69,15 @@ define(['marionette', 'underscore'], function(marionette, _) {
         },
 
         render: function() {
+            this._ensureViewIsIntact();
+            this.triggerMethod("before:render", this);
             if (this.isEditMode) {
                 this.$el.html(this.templateEditMode(this.model.toJSON()));
             } else {
                 this.$el.html(this.template(this.model.toJSON()));
             }
+            this.bindUIElements();
+            this.triggerMethod("render",this);
             return this;
         }
     });

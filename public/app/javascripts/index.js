@@ -15,7 +15,8 @@ require.config({
         backbone: "/bower_components/backbone/backbone",
         requirejs: "/bower_components/requirejs/require",
         marionette: '/bower_components/backbone.marionette/lib/backbone.marionette.min',
-        backboneFetchCache: '/bower_components/backbone.fetch-cache/backbone.fetch-cache.min'
+        backboneFetchCache: '/bower_components/backbone-fetch-cache/backbone.fetch-cache.min',
+        memento: '/bower_components/backbone.memento/backbone.memento.min'
     },
     shim: {
         backbone: {
@@ -25,6 +26,10 @@ require.config({
         backboneFetchCache: {
             deps: ['backbone'],
             exports: 'Backbone'
+        },
+        memento: {
+            deps: ['backbone'],
+            exports: 'Backbone.Memento'
         },
         marionette: {
             deps: ['backbone'],
